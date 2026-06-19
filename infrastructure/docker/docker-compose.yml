@@ -1,5 +1,31 @@
 version: '3.9'
 
+# ── Base service definition (shared across all API services) ─────────────────
+x-api-defaults: &api-defaults
+  restart: unless-stopped
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+# ── Shared DB env block (each service overrides DB_SCHEMA and PORT) ──────────
+x-db-env: &db-env
+  DB_HOST: postgres
+  DB_PORT: 5432
+  DB_NAME: ogp
+  DB_USER: ogp_user
+  DB_PASSWORD: ${POSTGRES_PASSWORD}
+  DB_SYNC: "false"
+  DB_LOGGING: "false"
+
+# ── Shared Redis env block ────────────────────────────────────────────────────
+x-redis-env: &redis-env
+  REDIS_HOST: redis
+  REDIS_PORT: 6379
+  REDIS_PASSWORD: ${REDIS_PASSWORD}
+  REDIS_DB: 0
+
 services:
   # ── API Gateway ─────────────────────────────────────────────────────────────
   nginx:
@@ -18,128 +44,94 @@ services:
 
   # ── Application Services ─────────────────────────────────────────────────────
   identity-api:
+    <<: *api-defaults
     build:
       context: ../../
       dockerfile: apps/identity-api/Dockerfile
     environment:
+      <<: [*db-env, *redis-env]
       PORT: 3001
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_NAME: ogp
-      DB_USER: ogp_user
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
       DB_SCHEMA: identity
-      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      NODE_ENV: production
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRY: 15m
       REFRESH_TOKEN_EXPIRY: 7d
-      NODE_ENV: production
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    restart: unless-stopped
     healthcheck:
       test: ['CMD', 'wget', '-qO-', 'http://localhost:3001/health']
       interval: 30s
       timeout: 5s
       retries: 3
+      start_period: 15s
 
   wallet-api:
+    <<: *api-defaults
     build:
       context: ../../
       dockerfile: apps/wallet-api/Dockerfile
     environment:
+      <<: [*db-env, *redis-env]
       PORT: 3002
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_NAME: ogp
-      DB_USER: ogp_user
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
       DB_SCHEMA: wallet
-      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
       NODE_ENV: production
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    restart: unless-stopped
     healthcheck:
       test: ['CMD', 'wget', '-qO-', 'http://localhost:3002/health']
       interval: 30s
       timeout: 5s
       retries: 3
+      start_period: 15s
 
   gaming-api:
+    <<: *api-defaults
     build:
       context: ../../
       dockerfile: apps/gaming-api/Dockerfile
     environment:
+      <<: [*db-env, *redis-env]
       PORT: 3003
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_NAME: ogp
-      DB_USER: ogp_user
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
       DB_SCHEMA: gaming
-      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
-      WALLET_API_URL: http://wallet-api:3002
       NODE_ENV: production
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    restart: unless-stopped
+      WALLET_API_URL: http://wallet-api:3002
     healthcheck:
       test: ['CMD', 'wget', '-qO-', 'http://localhost:3003/health']
       interval: 30s
       timeout: 5s
       retries: 3
+      start_period: 15s
 
   trading-api:
+    <<: *api-defaults
     build:
       context: ../../
       dockerfile: apps/trading-api/Dockerfile
     environment:
+      <<: [*db-env, *redis-env]
       PORT: 3004
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_NAME: ogp
-      DB_USER: ogp_user
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
       DB_SCHEMA: trading
-      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
-      WALLET_API_URL: http://wallet-api:3002
       NODE_ENV: production
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    restart: unless-stopped
+      WALLET_API_URL: http://wallet-api:3002
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:3004/health']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
 
   admin-api:
+    <<: *api-defaults
     build:
       context: ../../
       dockerfile: apps/admin-api/Dockerfile
     environment:
+      <<: [*db-env, *redis-env]
       PORT: 3005
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_NAME: ogp
-      DB_USER: ogp_user
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      DB_SCHEMA: admin
       NODE_ENV: production
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:3005/health']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
 
   # ── Data Layer ───────────────────────────────────────────────────────────────
   postgres:
@@ -162,13 +154,18 @@ services:
 
   redis:
     image: redis:7-alpine
-    command: redis-server --requirepass ${REDIS_PASSWORD} --maxmemory 512mb --maxmemory-policy allkeys-lru
+    command: >
+      redis-server
+      --requirepass ${REDIS_PASSWORD}
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
     ports:
       - '6379:6379'
     volumes:
       - redisdata:/data
     restart: unless-stopped
     healthcheck:
+      # Use the env var properly — not in single quotes
       test: ['CMD', 'redis-cli', '-a', '${REDIS_PASSWORD}', 'ping']
       interval: 10s
       timeout: 5s

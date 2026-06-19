@@ -1,0 +1,140 @@
+version: '3.9'
+
+# ── Local Development Overrides ───────────────────────────────────────────────
+#
+# Usage:
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+#
+# What this changes from production:
+#   - NODE_ENV = development (pretty logs, no SSL)
+#   - DB_SYNC = true  (TypeORM auto-creates tables — no migrations needed)
+#   - DB_LOGGING = true  (SQL queries logged to console)
+#   - No Nginx — hit each API directly on its port
+#   - Postgres and Redis exposed on localhost for direct access (e.g. TablePlus, RedisInsight)
+#   - No built images — services run from mounted source via ts-node (when Dockerfiles support it)
+#     For now: build normally but with dev env vars
+# ─────────────────────────────────────────────────────────────────────────────
+
+x-dev-db-env: &dev-db-env
+  DB_SYNC: "true"
+  DB_LOGGING: "true"
+  NODE_ENV: development
+
+services:
+  # ── Disable Nginx in dev — access APIs directly ───────────────────────────
+  nginx:
+    profiles:
+      - production-only   # excluded by default in dev
+
+  # ── Override each API with dev env vars ───────────────────────────────────
+  identity-api:
+    <<: *dev-db-env
+    environment:
+      <<: *dev-db-env
+      PORT: 3001
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ogp
+      DB_USER: ogp_user
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_SCHEMA: identity
+      DB_SYNC: "true"
+      DB_LOGGING: "true"
+      NODE_ENV: development
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_DB: 0
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-change-in-production}
+      JWT_EXPIRY: 15m
+      REFRESH_TOKEN_EXPIRY: 7d
+    ports:
+      - '3001:3001'
+
+  wallet-api:
+    environment:
+      PORT: 3002
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ogp
+      DB_USER: ogp_user
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_SCHEMA: wallet
+      DB_SYNC: "true"
+      DB_LOGGING: "true"
+      NODE_ENV: development
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_DB: 0
+    ports:
+      - '3002:3002'
+
+  gaming-api:
+    environment:
+      PORT: 3003
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ogp
+      DB_USER: ogp_user
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_SCHEMA: gaming
+      DB_SYNC: "true"
+      DB_LOGGING: "true"
+      NODE_ENV: development
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_DB: 0
+      WALLET_API_URL: http://wallet-api:3002
+    ports:
+      - '3003:3003'
+
+  trading-api:
+    environment:
+      PORT: 3004
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ogp
+      DB_USER: ogp_user
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_SCHEMA: trading
+      DB_SYNC: "true"
+      DB_LOGGING: "true"
+      NODE_ENV: development
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_DB: 0
+      WALLET_API_URL: http://wallet-api:3002
+    ports:
+      - '3004:3004'
+
+  admin-api:
+    environment:
+      PORT: 3005
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ogp
+      DB_USER: ogp_user
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_SCHEMA: admin
+      DB_SYNC: "true"
+      DB_LOGGING: "true"
+      NODE_ENV: development
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_DB: 0
+    ports:
+      - '3005:3005'
+
+  # ── Postgres: accessible from host machine (TablePlus, psql, etc.) ────────
+  postgres:
+    ports:
+      - '5432:5432'     # already set in base, listed here for clarity
+
+  # ── Redis: accessible from host machine (RedisInsight, redis-cli, etc.) ───
+  redis:
+    ports:
+      - '6379:6379'     # already set in base, listed here for clarity
