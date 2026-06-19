@@ -1,0 +1,14 @@
+{
+  "name": "open-gaming-platform",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "lint": "echo \"Add linting per app/pacakge\"",
+    "build": "echo \"Build apps/packages when scaffolding is expanded\"",
+    "dev": "echo \"Start dev servers per app when NestJS scaffolds are added\""
+  }
+}
