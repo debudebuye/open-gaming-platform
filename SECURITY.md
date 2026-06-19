@@ -11,7 +11,7 @@
 
 **Do not open a public GitHub issue for security vulnerabilities.**
 
-Please report security issues by emailing **security@your-org.com** with:
+Please report security issues by emailing **debadeba015@gmail.com** with:
 
 - Description of the vulnerability
 - Steps to reproduce
