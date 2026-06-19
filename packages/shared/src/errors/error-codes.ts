@@ -1,0 +1,59 @@
+/**
+ * Platform-wide error codes.
+ * Format: DOMAIN_ENTITY_REASON
+ *
+ * HTTP status is set by the exception class; the code gives clients
+ * a stable, machine-readable identifier independent of the message.
+ */
+export const ErrorCode = {
+  // ── Generic ──────────────────────────────────────────────────────────────
+  VALIDATION_ERROR: 'VALIDATION_ERROR',
+  NOT_FOUND: 'NOT_FOUND',
+  UNAUTHORIZED: 'UNAUTHORIZED',
+  FORBIDDEN: 'FORBIDDEN',
+  CONFLICT: 'CONFLICT',
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+  RATE_LIMITED: 'RATE_LIMITED',
+
+  // ── Identity ──────────────────────────────────────────────────────────────
+  AUTH_INVALID_CREDENTIALS: 'AUTH_INVALID_CREDENTIALS',
+  AUTH_TOKEN_EXPIRED: 'AUTH_TOKEN_EXPIRED',
+  AUTH_TOKEN_INVALID: 'AUTH_TOKEN_INVALID',
+  AUTH_REFRESH_TOKEN_INVALID: 'AUTH_REFRESH_TOKEN_INVALID',
+  USER_NOT_FOUND: 'USER_NOT_FOUND',
+  USER_ALREADY_EXISTS: 'USER_ALREADY_EXISTS',
+  USER_INACTIVE: 'USER_INACTIVE',
+  USER_KYC_REQUIRED: 'USER_KYC_REQUIRED',
+
+  // ── Wallet ────────────────────────────────────────────────────────────────
+  WALLET_NOT_FOUND: 'WALLET_NOT_FOUND',
+  WALLET_INSUFFICIENT_FUNDS: 'WALLET_INSUFFICIENT_FUNDS',
+  WALLET_HOLD_NOT_FOUND: 'WALLET_HOLD_NOT_FOUND',
+  WALLET_DUPLICATE_REFERENCE: 'WALLET_DUPLICATE_REFERENCE',
+  WALLET_CURRENCY_MISMATCH: 'WALLET_CURRENCY_MISMATCH',
+
+  // ── Betting ───────────────────────────────────────────────────────────────
+  BET_SLIP_INVALID: 'BET_SLIP_INVALID',
+  BET_MARKET_CLOSED: 'BET_MARKET_CLOSED',
+  BET_SELECTION_SUSPENDED: 'BET_SELECTION_SUSPENDED',
+  BET_STAKE_BELOW_MINIMUM: 'BET_STAKE_BELOW_MINIMUM',
+  BET_STAKE_ABOVE_MAXIMUM: 'BET_STAKE_ABOVE_MAXIMUM',
+  BET_DUPLICATE_MARKET: 'BET_DUPLICATE_MARKET',
+
+  // ── Keno ──────────────────────────────────────────────────────────────────
+  KENO_GAME_NOT_OPEN: 'KENO_GAME_NOT_OPEN',
+  KENO_TICKET_INVALID_NUMBERS: 'KENO_TICKET_INVALID_NUMBERS',
+
+  // ── Trading ───────────────────────────────────────────────────────────────
+  TRADING_INSTRUMENT_INACTIVE: 'TRADING_INSTRUMENT_INACTIVE',
+  TRADING_ORDER_NOT_FOUND: 'TRADING_ORDER_NOT_FOUND',
+  TRADING_POSITION_LIMIT_EXCEEDED: 'TRADING_POSITION_LIMIT_EXCEEDED',
+  TRADING_INSUFFICIENT_MARGIN: 'TRADING_INSUFFICIENT_MARGIN',
+
+  // ── Payments ──────────────────────────────────────────────────────────────
+  PAYMENT_PROVIDER_ERROR: 'PAYMENT_PROVIDER_ERROR',
+  PAYMENT_WEBHOOK_INVALID: 'PAYMENT_WEBHOOK_INVALID',
+  PAYMENT_ALREADY_PROCESSED: 'PAYMENT_ALREADY_PROCESSED',
+} as const;
+
+export type ErrorCode = (typeof ErrorCode)[keyof typeof ErrorCode];
