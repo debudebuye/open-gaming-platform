@@ -1,5 +1,5 @@
 import { Module, DynamicModule } from '@nestjs/common';
-import { JwtModule as NestJwtModule } from '@nestjs/jwt';
+import { JwtModule as NestJwtModule, JwtService as NestJwtService } from '@nestjs/jwt';
 import { JwtService } from './jwt.service';
 import type { JwtConfig } from './jwt.types';
 
