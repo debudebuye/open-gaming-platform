@@ -1,0 +1,25 @@
+name: Deploy trading-api
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/trading-api/**'
+      - 'packages/trading/**'
+      - 'packages/shared/**'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build trading-api
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm --filter @ogp/shared build
+          pnpm --filter @ogp/trading build
+          pnpm --filter trading-api build
+
+      - name: Build Docker image
+        run: docker build -f apps/trading-api/Dockerfile -t registry/trading-api:${{ github.sha }} .

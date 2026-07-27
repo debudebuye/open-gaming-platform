@@ -1,0 +1,20 @@
+export enum LedgerEntryType {
+  DEPOSIT = 'DEPOSIT',
+  WITHDRAWAL = 'WITHDRAWAL',
+  BET_HOLD = 'BET_HOLD',
+  BET_DEBIT = 'BET_DEBIT',
+  BET_WIN_CREDIT = 'BET_WIN_CREDIT',
+  BET_HOLD_RELEASE = 'BET_HOLD_RELEASE',
+  TRADE_HOLD = 'TRADE_HOLD',
+  TRADE_SETTLEMENT = 'TRADE_SETTLEMENT',
+  BONUS_CREDIT = 'BONUS_CREDIT',
+  FEE_DEBIT = 'FEE_DEBIT',
+  ADJUSTMENT = 'ADJUSTMENT',
+}
+
+export enum HoldStatus {
+  ACTIVE = 'active',
+  SETTLED = 'settled',
+  RELEASED = 'released',
+  EXPIRED = 'expired',
+}

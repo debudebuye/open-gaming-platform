@@ -1,0 +1,216 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 480">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0c29"/>
+      <stop offset="50%" style="stop-color:#302b63"/>
+      <stop offset="100%" style="stop-color:#24243e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00d2ff"/>
+      <stop offset="100%" style="stop-color:#3a7bd5"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#11998e"/>
+      <stop offset="100%" style="stop-color:#38ef7d"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f7971e"/>
+      <stop offset="100%" style="stop-color:#ffd200"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#a855f7"/>
+      <stop offset="100%" style="stop-color:#6366f1"/>
+    </linearGradient>
+    <linearGradient id="pink" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ec4899"/>
+      <stop offset="100%" style="stop-color:#f43f5e"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="480" fill="url(#bg)" rx="12"/>
+
+  <!-- Grid pattern -->
+  <g opacity="0.04">
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#fff" stroke-width="0.5"/>
+    </pattern>
+    <rect width="1280" height="480" fill="url(#grid)"/>
+  </g>
+
+  <!-- Decorative orbs -->
+  <circle cx="120" cy="100" r="180" fill="#3a7bd5" opacity="0.06"/>
+  <circle cx="1160" cy="400" r="220" fill="#a855f7" opacity="0.05"/>
+  <circle cx="640" cy="500" r="160" fill="#11998e" opacity="0.04"/>
+
+  <!-- Title -->
+  <text x="640" y="72" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="800" fill="#ffffff" filter="url(#glow)">
+    Open Gaming Platform
+  </text>
+
+  <!-- Subtitle -->
+  <text x="640" y="105" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="17" fill="#94a3b8" letter-spacing="0.5">
+    Modular, open-source gaming platform — built with NestJS, TypeScript, PostgreSQL &amp; Redis
+  </text>
+
+  <!-- Divider line -->
+  <rect x="540" y="122" width="200" height="2" rx="1" fill="url(#accent)" opacity="0.6"/>
+
+  <!-- Features Section Label -->
+  <text x="640" y="162" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#64748b" letter-spacing="3">
+    FEATURES
+  </text>
+
+  <!-- Feature cards -->
+  <!-- Identity & Auth -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="178" width="180" height="72" rx="10" fill="#1e1b4b" stroke="#3a7bd5" stroke-width="1.5"/>
+    <rect x="40" y="178" width="180" height="3" rx="1.5" fill="url(#accent)"/>
+    <circle cx="72" cy="210" r="14" fill="#3a7bd5" opacity="0.2"/>
+    <text x="72" y="215" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="16">&#x1f511;</text>
+    <text x="96" y="206" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#e2e8f0">Identity &amp; Auth</text>
+    <text x="96" y="226" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">JWT, RBAC, KYC</text>
+  </g>
+
+  <!-- Wallet -->
+  <g filter="url(#shadow)">
+    <rect x="232" y="178" width="180" height="72" rx="10" fill="#1e1b4b" stroke="#38ef7d" stroke-width="1.5"/>
+    <rect x="232" y="178" width="180" height="3" rx="1.5" fill="url(#green)"/>
+    <circle cx="264" cy="210" r="14" fill="#38ef7d" opacity="0.2"/>
+    <text x="264" y="215" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="16">&#x1f4b0;</text>
+    <text x="288" y="206" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#e2e8f0">Wallet</text>
+    <text x="288" y="226" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">Ledger, Holds, Settlements</text>
+  </g>
+
+  <!-- Sports Betting -->
+  <g filter="url(#shadow)">
+    <rect x="424" y="178" width="180" height="72" rx="10" fill="#1e1b4b" stroke="#f7971e" stroke-width="1.5"/>
+    <rect x="424" y="178" width="180" height="3" rx="1.5" fill="url(#orange)"/>
+    <circle cx="456" cy="210" r="14" fill="#f7971e" opacity="0.2"/>
+    <text x="456" y="215" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="16">&#x26bd;</text>
+    <text x="480" y="206" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#e2e8f0">Sports Betting</text>
+    <text x="480" y="226" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">Markets, Odds, Payouts</text>
+  </g>
+
+  <!-- Keno & Casino -->
+  <g filter="url(#shadow)">
+    <rect x="616" y="178" width="180" height="72" rx="10" fill="#1e1b4b" stroke="#e0234e" stroke-width="1.5"/>
+    <rect x="616" y="178" width="180" height="3" rx="1.5" fill="#e0234e" opacity="0.8"/>
+    <circle cx="648" cy="210" r="14" fill="#e0234e" opacity="0.2"/>
+    <text x="648" y="215" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="16">&#x1f3b0;</text>
+    <text x="672" y="206" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#e2e8f0">Keno &amp; Casino</text>
+    <text x="672" y="226" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">RNG, Provably Fair</text>
+  </g>
+
+  <!-- Trading -->
+  <g filter="url(#shadow)">
+    <rect x="808" y="178" width="180" height="72" rx="10" fill="#1e1b4b" stroke="#a855f7" stroke-width="1.5"/>
+    <rect x="808" y="178" width="180" height="3" rx="1.5" fill="url(#purple)"/>
+    <circle cx="840" cy="210" r="14" fill="#a855f7" opacity="0.2"/>
+    <text x="840" y="215" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="16">&#x1f4c8;</text>
+    <text x="864" y="206" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#e2e8f0">Trading</text>
+    <text x="864" y="226" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">Order Book, Matching</text>
+  </g>
+
+  <!-- Payments & Notifications -->
+  <g filter="url(#shadow)">
+    <rect x="1000" y="178" width="200" height="72" rx="10" fill="#1e1b4b" stroke="#ec4899" stroke-width="1.5"/>
+    <rect x="1000" y="178" width="200" height="3" rx="1.5" fill="url(#pink)"/>
+    <circle cx="1032" cy="210" r="14" fill="#ec4899" opacity="0.2"/>
+    <text x="1032" y="215" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="16">&#x1f4b3;</text>
+    <text x="1056" y="206" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#e2e8f0">Payments &amp; Alerts</text>
+    <text x="1056" y="226" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">Stripe, M-Pesa, Email, SMS</text>
+  </g>
+
+  <!-- Packages Section Label -->
+  <text x="640" y="294" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#64748b" letter-spacing="3">
+    SHARED PACKAGES
+  </text>
+
+  <!-- Package pills row 1 -->
+  <g>
+    <rect x="118" y="310" width="110" height="30" rx="15" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="173" y="330" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#38ef7d">@ogp/shared</text>
+
+    <rect x="240" y="310" width="90" height="30" rx="15" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="285" y="330" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#3a7bd5">@ogp/auth</text>
+
+    <rect x="342" y="310" width="108" height="30" rx="15" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="396" y="330" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#38ef7d">@ogp/wallet</text>
+
+    <rect x="462" y="310" width="106" height="30" rx="15" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="515" y="330" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#f7971e">@ogp/betting</text>
+
+    <rect x="580" y="310" width="90" height="30" rx="15" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="625" y="330" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#f7971e">@ogp/keno</text>
+
+    <rect x="682" y="310" width="100" height="30" rx="15" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="732" y="330" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#f7971e">@ogp/casino</text>
+
+    <rect x="794" y="310" width="102" height="30" rx="15" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="845" y="330" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#a855f7">@ogp/trading</text>
+
+    <rect x="908" y="310" width="120" height="30" rx="15" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="968" y="330" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#ec4899">@ogp/payments</text>
+
+    <rect x="1040" y="310" width="148" height="30" rx="15" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="1114" y="330" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#ec4899">@ogp/notifications</text>
+  </g>
+
+  <!-- Tech Stack -->
+  <text x="640" y="382" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#64748b" letter-spacing="3">
+    TECH STACK
+  </text>
+
+  <g>
+    <!-- NestJS -->
+    <rect x="230" y="398" width="108" height="28" rx="6" fill="#e0234e" opacity="0.15" stroke="#e0234e" stroke-width="0.5"/>
+    <text x="284" y="417" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#f87171">NestJS 10</text>
+
+    <!-- TypeScript -->
+    <rect x="350" y="398" width="126" height="28" rx="6" fill="#3178c6" opacity="0.15" stroke="#3178c6" stroke-width="0.5"/>
+    <text x="413" y="417" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#60a5fa">TypeScript 5.5</text>
+
+    <!-- PostgreSQL -->
+    <rect x="488" y="398" width="126" height="28" rx="6" fill="#336791" opacity="0.15" stroke="#336791" stroke-width="0.5"/>
+    <text x="551" y="417" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#93c5fd">PostgreSQL 16</text>
+
+    <!-- Redis -->
+    <rect x="626" y="398" width="96" height="28" rx="6" fill="#dc382d" opacity="0.15" stroke="#dc382d" stroke-width="0.5"/>
+    <text x="674" y="417" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#fca5a5">Redis 7</text>
+
+    <!-- Docker -->
+    <rect x="734" y="398" width="96" height="28" rx="6" fill="#2496ed" opacity="0.15" stroke="#2496ed" stroke-width="0.5"/>
+    <text x="782" y="417" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#7dd3fc">Docker</text>
+
+    <!-- pnpm -->
+    <rect x="842" y="398" width="84" height="28" rx="6" fill="#f69220" opacity="0.15" stroke="#f69220" stroke-width="0.5"/>
+    <text x="884" y="417" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#fdba74">pnpm 9</text>
+
+    <!-- GitHub Actions -->
+    <rect x="938" y="398" width="148" height="28" rx="6" fill="#2088ff" opacity="0.15" stroke="#2088ff" stroke-width="0.5"/>
+    <text x="1012" y="417" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#93c5fd">GitHub Actions</text>
+  </g>
+
+  <!-- Footer badges -->
+  <g>
+    <rect x="390" y="445" width="100" height="22" rx="11" fill="#16a34a" opacity="0.2"/>
+    <text x="440" y="460" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#4ade80">9 Features</text>
+
+    <rect x="500" y="445" width="100" height="22" rx="11" fill="#3a7bd5" opacity="0.2"/>
+    <text x="550" y="460" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#60a5fa">9 Packages</text>
+
+    <rect x="610" y="445" width="100" height="22" rx="11" fill="#a855f7" opacity="0.2"/>
+    <text x="660" y="460" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#c084fc">150+ Files</text>
+
+    <rect x="720" y="445" width="100" height="22" rx="11" fill="#f7971e" opacity="0.2"/>
+    <text x="770" y="460" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#fbbf24">30+ Endpoints</text>
+  </g>
+</svg>

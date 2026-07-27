@@ -4,12 +4,14 @@ Reusable authentication and authorization primitives.
 
 ## Exports
 
-- `JwtAuthGuard` — NestJS guard that validates JWT access tokens
-- `RolesGuard` — Enforces RBAC role checks
+- `JwtAuthModule` — Dynamic NestJS module for RS256 JWT signing/verification
+- `JwtService` — Sign and verify JWT access tokens
+- `JwtStrategy` — Passport strategy for JWT Bearer auth
+- `JwtAuthGuard` — NestJS guard that validates JWT access tokens, respects `@Public()`
+- `RolesGuard` — Enforces RBAC role checks via `@Roles()` metadata
 - `KycGuard` — Blocks requests from users who haven't completed KYC
-- `JwtService` — Sign and verify JWT tokens
-- `@Public()` — Decorator to bypass JWT auth on public routes
-- `@Roles(...roles)` — Decorator to declare required roles
+- `PasswordService` — Bcrypt hash and compare
+- `RefreshTokenService` — Opaque refresh token CRUD in Redis
 
 ## Token Strategy
 
@@ -19,7 +21,12 @@ Reusable authentication and authorization primitives.
 ## Usage
 
 ```typescript
-import { JwtAuthGuard, RolesGuard, Roles } from '@ogp/auth';
+import { JwtAuthGuard, RolesGuard, JwtAuthModule } from '@ogp/auth';
+
+@Module({
+  imports: [JwtAuthModule.forRoot({ publicKey, privateKey, accessTtl: '15m', refreshTtlDays: 7 })],
+})
+export class AuthModule {}
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('ADMIN')

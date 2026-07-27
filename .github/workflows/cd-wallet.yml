@@ -1,0 +1,25 @@
+name: Deploy wallet-api
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/wallet-api/**'
+      - 'packages/wallet/**'
+      - 'packages/shared/**'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build wallet-api
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm --filter @ogp/shared build
+          pnpm --filter @ogp/wallet build
+          pnpm --filter wallet-api build
+
+      - name: Build Docker image
+        run: docker build -f apps/wallet-api/Dockerfile -t registry/wallet-api:${{ github.sha }} .

@@ -1,0 +1,29 @@
+name: Deploy gaming-api
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/gaming-api/**'
+      - 'packages/betting/**'
+      - 'packages/keno/**'
+      - 'packages/casino/**'
+      - 'packages/shared/**'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build gaming-api
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm --filter @ogp/shared build
+          pnpm --filter @ogp/betting build
+          pnpm --filter @ogp/keno build
+          pnpm --filter @ogp/casino build
+          pnpm --filter gaming-api build
+
+      - name: Build Docker image
+        run: docker build -f apps/gaming-api/Dockerfile -t registry/gaming-api:${{ github.sha }} .

@@ -7,8 +7,15 @@
     "packages/*"
   ],
   "scripts": {
-    "lint": "echo \"Add linting per app/pacakge\"",
-    "build": "echo \"Build apps/packages when scaffolding is expanded\"",
-    "dev": "echo \"Start dev servers per app when NestJS scaffolds are added\""
+    "build:packages": "pnpm --filter @ogp/shared build && pnpm --filter @ogp/auth build && pnpm --filter @ogp/wallet build && pnpm --filter @ogp/betting build && pnpm --filter @ogp/keno build && pnpm --filter @ogp/casino build && pnpm --filter @ogp/trading build && pnpm --filter @ogp/payments build && pnpm --filter @ogp/notifications build",
+    "build:apps": "pnpm --filter identity-api build && pnpm --filter wallet-api build && pnpm --filter gaming-api build && pnpm --filter trading-api build && pnpm --filter admin-api build",
+    "build": "pnpm run build:packages && pnpm run build:apps",
+    "dev:identity": "pnpm --filter identity-api dev",
+    "dev:wallet": "pnpm --filter wallet-api dev",
+    "dev:gaming": "pnpm --filter gaming-api dev",
+    "dev:trading": "pnpm --filter trading-api dev",
+    "dev:admin": "pnpm --filter admin-api dev",
+    "test": "pnpm --filter identity-api test && pnpm --filter wallet-api test",
+    "lint": "echo \"TODO: Add linting per app/package\""
   }
 }

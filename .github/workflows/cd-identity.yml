@@ -1,0 +1,27 @@
+name: Deploy identity-api
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/identity-api/**'
+      - 'packages/auth/**'
+      - 'packages/shared/**'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build identity-api
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm --filter @ogp/shared build
+          pnpm --filter @ogp/auth build
+          pnpm --filter identity-api build
+
+      - name: Build Docker image
+        run: docker build -f apps/identity-api/Dockerfile -t registry/identity-api:${{ github.sha }} .
+
+      # TODO: Add Docker push and deploy steps when registry/K8s is configured

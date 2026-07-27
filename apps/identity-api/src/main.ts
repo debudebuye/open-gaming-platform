@@ -1,19 +1,30 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe, Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    logger: ['log', 'error', 'warn'],
+    logger: ['log', 'error', 'warn', 'debug'],
   });
 
-  // Ensure no global prefix interferes with /health
-  app.setGlobalPrefix('');
+  app.setGlobalPrefix('v1');
 
-  const port = 3001;
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      transformOptions: { enableImplicitConversion: true },
+    }),
+  );
+
   app.enableShutdownHooks();
+
+  const port = process.env.PORT ?? 3001;
+  const logger = new Logger('Bootstrap');
   await app.listen(port);
+  logger.log(`Identity API running on port ${port}`);
 }
 
 bootstrap();
-

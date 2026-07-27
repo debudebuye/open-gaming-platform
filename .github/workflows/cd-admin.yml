@@ -1,0 +1,23 @@
+name: Deploy admin-api
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/admin-api/**'
+      - 'packages/shared/**'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build admin-api
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm --filter @ogp/shared build
+          pnpm --filter admin-api build
+
+      - name: Build Docker image
+        run: docker build -f apps/admin-api/Dockerfile -t registry/admin-api:${{ github.sha }} .
