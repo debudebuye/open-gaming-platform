@@ -1,12 +1,12 @@
 import { ErrorCode, ValidationException } from '@ogp/shared';
 
-export interface BetLine {
+interface BetLineInput {
   selectionId: string;
   odds: number;
 }
 
 export interface SlipValidationInput {
-  lines: BetLine[];
+  lines: BetLineInput[];
   stake: number;
   maxSelections?: number;
   minStake?: number;
@@ -63,7 +63,7 @@ export function validateSlip(input: SlipValidationInput): void {
   }
 }
 
-export function calculatePayout(stake: number, lines: BetLine[]): number {
+export function calculatePayout(stake: number, lines: BetLineInput[]): number {
   if (lines.length === 1) {
     return stake * lines[0].odds;
   }
