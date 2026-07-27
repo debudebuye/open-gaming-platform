@@ -10,17 +10,18 @@ import { BettingModule } from './betting/betting.module';
 import { KenoModule } from './keno/keno.module';
 import { CasinoModule } from './casino/casino.module';
 
-const env = loadConfig(GamingEnvSchema);
+const rawEnv = loadConfig(GamingEnvSchema);
+const env = rawEnv as typeof rawEnv & Record<string, unknown>;
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, validate: () => env }),
     TypeOrmModule.forRoot(
-      buildTypeOrmOptions(env, {
+      buildTypeOrmOptions(env as any, {
         entities: [Market, Selection, BetSlip, BetLine, KenoGame, KenoTicket],
       }),
     ),
-    RedisModule.forRoot(env),
+    RedisModule.forRoot(env as any),
     BettingModule,
     KenoModule,
     CasinoModule.forPlugins([]),

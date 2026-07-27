@@ -6,7 +6,8 @@ import { RedisModule, AllExceptionsFilter, loadConfig } from '@ogp/shared';
 import { AdminEnvSchema } from './config';
 import { AdminModule } from './admin/admin.module';
 
-const env = loadConfig(AdminEnvSchema);
+const rawEnv = loadConfig(AdminEnvSchema);
+const env = rawEnv as typeof rawEnv & Record<string, unknown>;
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ const env = loadConfig(AdminEnvSchema);
       schema: 'admin',
       synchronize: false,
     }),
-    RedisModule.forRoot(env),
+    RedisModule.forRoot(env as any),
     AdminModule,
   ],
   providers: [

@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Param, Body, ParseUUIDPipe, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard, RolesGuard } from '@ogp/auth';
-import { Roles } from '@ogp/shared';
+import { Roles, UserRole } from '@ogp/shared';
 import { WalletService } from './wallet.service';
 import { CreateWalletDto } from './dto/create-wallet.dto';
 
@@ -10,7 +10,7 @@ export class WalletController {
   constructor(private readonly walletService: WalletService) {}
 
   @Post()
-  @Roles('ADMIN', 'SUPER_ADMIN')
+  @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
   async create(@Body() dto: CreateWalletDto) {
     return this.walletService.create(dto);
   }

@@ -9,17 +9,18 @@ import { WalletEnvSchema } from './config';
 import { WalletModule } from './wallet/wallet.module';
 import { HoldsModule } from './holds/holds.module';
 
-const env = loadConfig(WalletEnvSchema);
+const rawEnv = loadConfig(WalletEnvSchema);
+const env = rawEnv as typeof rawEnv & Record<string, unknown>;
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, validate: () => env }),
     TypeOrmModule.forRoot(
-      buildTypeOrmOptions(env, {
+      buildTypeOrmOptions(env as any, {
         entities: [Wallet, LedgerEntry, Hold],
       }),
     ),
-    RedisModule.forRoot(env),
+    RedisModule.forRoot(env as any),
     WalletModule,
     HoldsModule,
   ],
