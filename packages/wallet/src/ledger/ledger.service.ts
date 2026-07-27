@@ -59,7 +59,7 @@ export class LedgerService {
 
       const currentBalance = await this.computeBalanceInTx(manager, walletId);
       if (currentBalance < amount) {
-        throw new InsufficientFundsException(ErrorCode.WALLET_INSUFFICIENT_FUNDS, 'Insufficient funds');
+        throw new InsufficientFundsException();
       }
 
       const newBalance = currentBalance - amount;
