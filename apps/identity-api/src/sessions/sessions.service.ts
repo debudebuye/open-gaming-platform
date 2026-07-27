@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, LessThan } from 'typeorm';
-import { Session } from './entities/session.entity';
+import { Session } from '../users/entities/session.entity';
 import { OffsetPaginationQueryDto, PaginatedResponseDto } from '@ogp/shared';
 
 @Injectable()

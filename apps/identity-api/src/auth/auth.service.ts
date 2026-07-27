@@ -13,7 +13,7 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly passwordService: PasswordService,
     private readonly jwtService: JwtService,
-    private readonly refreshTokens: RefreshTokenService,
+    private readonly refreshTokenService: RefreshTokenService,
   ) {}
 
   async login(dto: LoginDto): Promise<TokenResponseDto> {
@@ -31,7 +31,7 @@ export class AuthService {
       throw new UnauthorizedException_(ErrorCode.AUTH_INVALID_CREDENTIALS, 'Invalid email or password');
     }
 
-    return this.issueTokens(user.id, user.email, user.roles ?? ['PLAYER'], user.kycStatus);
+    return this.issueTokens(user.id, user.email, ['PLAYER'], user.kycStatus);
   }
 
   async register(dto: RegisterDto): Promise<TokenResponseDto> {
@@ -44,22 +44,19 @@ export class AuthService {
     return this.issueTokens(user.id, user.email, ['PLAYER'], user.kycStatus);
   }
 
-  async refreshTokens(refreshToken: string): Promise<TokenResponseDto> {
+  async refresh(refreshToken: string): Promise<TokenResponseDto> {
     const refreshTokenId = this.extractTokenId(refreshToken);
     if (!refreshTokenId) {
       throw new UnauthorizedException_(ErrorCode.AUTH_REFRESH_TOKEN_INVALID, 'Invalid refresh token');
     }
 
-    // We need to find the session to get the userId
-    // The refresh token is the raw token ID, we validate against Redis
-    // For now, we use a simplified approach — the token contains userId:tokenId
     const parts = refreshToken.split(':');
     if (parts.length !== 2) {
       throw new UnauthorizedException_(ErrorCode.AUTH_REFRESH_TOKEN_INVALID, 'Invalid refresh token');
     }
 
     const [userId, tokenId] = parts;
-    const valid = await this.refreshTokens.validate(userId, tokenId);
+    const valid = await this.refreshTokenService.validate(userId, tokenId);
     if (!valid) {
       throw new UnauthorizedException_(ErrorCode.AUTH_REFRESH_TOKEN_INVALID, 'Refresh token expired or revoked');
     }
@@ -69,7 +66,7 @@ export class AuthService {
       throw new UnauthorizedException_(ErrorCode.USER_INACTIVE, 'Account is deactivated');
     }
 
-    await this.refreshTokens.rotate(userId, tokenId, this.jwtService.generateRefreshTokenId());
+    await this.refreshTokenService.rotate(userId, tokenId, this.jwtService.generateRefreshTokenId());
 
     return this.issueTokens(user.id, user.email, ['PLAYER'], user.kycStatus);
   }
@@ -78,10 +75,10 @@ export class AuthService {
     if (refreshToken) {
       const parts = refreshToken.split(':');
       if (parts.length === 2) {
-        await this.refreshTokens.revoke(parts[0], parts[1]);
+        await this.refreshTokenService.revoke(parts[0], parts[1]);
       }
     } else {
-      await this.refreshTokens.revokeAllForUser(userId);
+      await this.refreshTokenService.revokeAllForUser(userId);
     }
   }
 
@@ -99,12 +96,12 @@ export class AuthService {
     ]);
 
     const refreshToken = `${userId}:${tokenId}`;
-    await this.refreshTokens.create(userId, tokenId);
+    await this.refreshTokenService.create(userId, tokenId);
 
     return {
       accessToken,
       refreshToken,
-      expiresIn: 900, // 15 minutes in seconds
+      expiresIn: 900,
     };
   }
 

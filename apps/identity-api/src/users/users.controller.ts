@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Patch, Param, Body, Query, ParseUUIDPipe, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard, RolesGuard } from '@ogp/auth';
-import { Roles, OffsetPaginationQueryDto } from '@ogp/shared';
+import { Roles, UserRole, OffsetPaginationQueryDto } from '@ogp/shared';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -11,7 +11,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @Roles('ADMIN', 'SUPER_ADMIN')
+  @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
   async create(@Body() dto: CreateUserDto) {
     return this.usersService.create(dto);
   }

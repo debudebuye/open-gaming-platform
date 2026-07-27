@@ -14,18 +14,19 @@ import { AuthModule } from './auth/auth.module';
 import { SessionsModule } from './sessions/sessions.module';
 import Redis from 'ioredis';
 
-const env = loadConfig(IdentityEnvSchema);
+const rawEnv = loadConfig(IdentityEnvSchema);
+const env = rawEnv as typeof rawEnv & Record<string, unknown>;
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, validate: () => env }),
     TypeOrmModule.forRoot(
-      buildTypeOrmOptions(env, {
+      buildTypeOrmOptions(env as any, {
         entities: [User, Session, Role, UserRole],
         schema: 'identity',
       }),
     ),
-    RedisModule.forRoot(env),
+    RedisModule.forRoot(env as any),
     JwtAuthModule.forRoot({
       secret: env.JWT_SECRET,
       accessTtl: '15m',
