@@ -18,7 +18,6 @@ const env = loadConfig(GamingEnvSchema);
     TypeOrmModule.forRoot(
       buildTypeOrmOptions(env, {
         entities: [Market, Selection, BetSlip, BetLine, KenoGame, KenoTicket],
-        schema: 'gaming',
       }),
     ),
     RedisModule.forRoot(env),

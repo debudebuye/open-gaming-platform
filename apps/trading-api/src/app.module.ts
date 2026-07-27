@@ -15,7 +15,6 @@ const env = loadConfig(TradingEnvSchema);
     TypeOrmModule.forRoot(
       buildTypeOrmOptions(env, {
         entities: [Order, Trade, Instrument, Position],
-        schema: 'trading',
       }),
     ),
     RedisModule.forRoot(env),

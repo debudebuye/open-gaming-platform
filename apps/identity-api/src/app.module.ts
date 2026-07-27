@@ -23,7 +23,6 @@ const env = rawEnv as typeof rawEnv & Record<string, unknown>;
     TypeOrmModule.forRoot(
       buildTypeOrmOptions(env as any, {
         entities: [User, Session, Role, UserRole],
-        schema: 'identity',
       }),
     ),
     RedisModule.forRoot(env as any),

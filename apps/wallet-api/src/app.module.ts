@@ -17,7 +17,6 @@ const env = loadConfig(WalletEnvSchema);
     TypeOrmModule.forRoot(
       buildTypeOrmOptions(env, {
         entities: [Wallet, LedgerEntry, Hold],
-        schema: 'wallet',
       }),
     ),
     RedisModule.forRoot(env),
