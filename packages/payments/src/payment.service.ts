@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
-import type { IPaymentProvider, CreatePaymentParams, PaymentResult, PaymentVerification, RefundResult } from '../types';
-import { PaymentStatus } from '../types';
+import type { IPaymentProvider, CreatePaymentParams, PaymentResult, PaymentVerification, RefundResult } from './types';
+import { PaymentStatus } from './types';
 
 @Injectable()
 export class PaymentService {
