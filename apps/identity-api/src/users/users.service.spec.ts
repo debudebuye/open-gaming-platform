@@ -34,7 +34,7 @@ describe('UsersService', () => {
   it('should create a user', async () => {
     const dto = { email: 'test@test.com', username: 'testuser', password: 'password123' };
     repo.findOne!.mockResolvedValue(null);
-    repo.create!.mockReturnValue({ id: '1', ...dto, passwordHash: 'hashed', kycStatus: 'pending', isActive: true, createdAt: new Date(), updatedAt: new Date() } as User);
+    repo.create!.mockReturnValue({ id: '1', ...dto, passwordHash: 'hashed', kycStatus: 'pending', isActive: true, createdAt: new Date(), updatedAt: new Date() } as unknown as User);
     repo.save!.mockImplementation(async (u) => u as User);
 
     const result = await service.create(dto);
